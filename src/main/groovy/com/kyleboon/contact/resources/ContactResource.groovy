@@ -15,7 +15,7 @@ import com.yammer.metrics.annotation.Timed
  * User: kboon
  * Date: 11/19/12
  */
-@Path("/contacts")
+@Path('/contacts')
 @Produces(MediaType.APPLICATION_JSON)
 class ContactResource {
     private final ContactDAO contactDAO
@@ -24,17 +24,31 @@ class ContactResource {
         this.contactDAO = contactDAO
     }
 
-    @Timed(name = "create-contacts")
+    @Timed(name = 'createContact')
     @POST
     @UnitOfWork
     public Contact createContact(Contact deserializedContact) {
         return contactDAO.create(deserializedContact)
     }
 
-    @Timed(name = "list-contacts")
+    @Timed(name = 'getContact')
+    @GET
+    @UnitOfWork
+    public Contact getContact(Contact deserializedContact) {
+        return contactDAO.create(deserializedContact)
+    }
+
+    @Timed(name = 'listContact')
     @GET
     @UnitOfWork
     public List<Contact> listContact() {
+        return contactDAO.list()
+    }
+
+    @Timed(name = 'searchForContact')
+    @GET
+    @UnitOfWork
+    public List<Contact> search() {
         return contactDAO.list()
     }
 }

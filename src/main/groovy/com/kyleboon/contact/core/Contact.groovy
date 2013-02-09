@@ -11,38 +11,28 @@ import javax.persistence.*
  * Date: 11/19/12
  */
 @Entity
-@Table(name = "contacts")
+@Table(name = 'contacts')
 @ToString
 @EqualsAndHashCode
-@NamedQueries([
-@NamedQuery(
-name = "com.example.helloworld.core.Contact.findAll",
-query = "SELECT c FROM Contact c"
-),
-@NamedQuery(
-name = "com.example.helloworld.core.Contact.findById",
-query = "SELECT c FROM Contact c WHERE c.id = :id"
-)
-])
 class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty
     Long id
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = 'first_name', nullable = false)
     @JsonProperty
     String firstName
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = 'last_name', nullable = false)
     @JsonProperty
     String lastName
 
-    @Column(name = "job_title", nullable = false)
+    @Column(name = 'job_title', nullable = false)
     @JsonProperty
     String jobTitle
 
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = 'phone_number', nullable = false)
     @JsonProperty
     String phoneNumber
 

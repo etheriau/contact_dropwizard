@@ -15,5 +15,5 @@ class ContactsConfiguration extends Configuration {
     @Valid
     @NotNull
     @JsonProperty
-    DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
+    DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration()
 }

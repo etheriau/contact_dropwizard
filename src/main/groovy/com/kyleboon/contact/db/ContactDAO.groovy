@@ -3,6 +3,7 @@ package com.kyleboon.contact.db
 import com.kyleboon.contact.core.Contact
 import com.yammer.dropwizard.hibernate.AbstractDAO
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.Restrictions
 
 /**
  * User: kboon
@@ -11,17 +12,23 @@ import org.hibernate.SessionFactory
 // TODO: write a unit test for this class
 class ContactDAO extends AbstractDAO<Contact> {
 
-    protected static final String FIND_ALL_QUERY = "com.example.contact.core.Contact.findAll"
-
     public ContactDAO(SessionFactory factory) {
-        super(factory);
+        super(factory)
     }
 
     public Contact create(Contact contact) {
         return persist(contact)
     }
 
+    public Contact findById(Long id) {
+        return currentSession()
+                .createCriteria(Contact)
+                .add(Restrictions.eq('id', id))
+                .uniqueResult() as Contact
+    }
+
     public List<Contact> list() {
-        return list(namedQuery(FIND_ALL_QUERY));
+        return currentSession()
+                .createCriteria(Contact).list() as List<Contact>
     }
 }

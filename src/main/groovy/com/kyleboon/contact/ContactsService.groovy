@@ -25,7 +25,7 @@ class ContactsService extends Service<ContactsConfiguration> {
         new HibernateBundle<ContactsConfiguration>([Contact, Address]) {
             @Override
             public DatabaseConfiguration getDatabaseConfiguration(ContactsConfiguration configuration) {
-                return configuration.getDatabaseConfiguration();
+                return configuration.databaseConfiguration()
             }
         }
 
@@ -33,7 +33,7 @@ class ContactsService extends Service<ContactsConfiguration> {
         new MigrationsBundle<ContactsConfiguration>() {
             @Override
             public DatabaseConfiguration getDatabaseConfiguration(ContactsConfiguration configuration) {
-                return configuration.getDatabaseConfiguration();
+                return configuration.databaseConfiguration()
             }
         }
 
@@ -41,7 +41,7 @@ class ContactsService extends Service<ContactsConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ContactsConfiguration> bootstrap) {
-        bootstrap.name = "hello-world"
+        bootstrap.name = 'configuration_service'
 
         bootstrap.addBundle assetsBundle
         bootstrap.addBundle migrationsBundle
@@ -52,7 +52,7 @@ class ContactsService extends Service<ContactsConfiguration> {
     public void run(ContactsConfiguration configuration,
                     Environment environment) throws ClassNotFoundException {
 
-        final ContactDAO contactDAO = new ContactDAO(hibernateBundle.getSessionFactory())
+        ContactDAO contactDAO = new ContactDAO(hibernateBundle.sessionFactory)
         environment.addResource(new ContactResource(contactDAO))
     }
 }

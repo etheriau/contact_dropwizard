@@ -1,66 +1,52 @@
 package com.kyleboon.contact.db
 
+import com.kyleboon.contact.core.Address
 import com.kyleboon.contact.core.Contact
-import groovy.mock.interceptor.MockFor
-import org.hibernate.Session
-import org.hibernate.SessionFactory
-import org.junit.Test
+import org.joda.time.DateTime
 
 /**
  * User: kboon
  * Date: 11/20/12
  */
-class ContactDAOTest {
-    @Test
-    public void create_callsHibernateSession() {
-        Contact contact = new Contact()
+class ContactDAOTest extends DAOTestHelper {
+    ContactDAO contactDAO
 
-        MockFor sessionFactoryMock = new MockFor(SessionFactory)
-        MockFor currentSessionMock = new MockFor(Session)
+    def setup() {
+        contactDAO = new ContactDAO(sessionFactory)
+    }
 
-        currentSessionMock.demand.saveOrUpdate { Contact contactToPersist -> return contactToPersist }
-        def currentSessionProxy = currentSessionMock.proxyDelegateInstance()
+    @Override
+    List<Class<?>> getEntities() {
+        return [Contact, Address]
+    }
 
-        sessionFactoryMock.demand.getCurrentSession() {  ->  currentSessionProxy }
-        def sessionFactoryProxy = sessionFactoryMock.proxyDelegateInstance()
+    def 'persists and retrieves an enrollment file'() {
+        given: 'an unpersisted contact with an address'
+        Address address = new Address(
+                address1:"15 South 5th Street",
+                address2:"",
+                city:"Minneapolis",
+                state:"MN",
+                county:"Hennepin",
+                zipCode:"55402"
+        )
 
-        ContactDAO contactDAO = new ContactDAO(sessionFactoryProxy)
+        Contact contact = new Contact(
+                firstName:"Kyle",
+                lastName:"Boon",
+                jobTitle:"developer",
+                phoneNumber:"999-999-9999",
+                address: address
+        )
+
+        when: 'it is persisted'
         Contact persistedContact = contactDAO.create(contact)
+        Contact retreivedContact = contactDAO.findById(persistedContact.id)
 
-        currentSessionMock.verify(currentSessionProxy)
-        sessionFactoryMock.verify(sessionFactoryProxy)
-        assert persistedContact == contact
+        then: 'it is identical to the retrived version'
+        assert persistedContact == retreivedContact
     }
 
-    @Test
-    public void list_callsHibernateSessionWithNamedQuery() {
-        MockFor sessionFactoryMock = new MockFor(SessionFactory)
-        def sessionFactoryProxy = sessionFactoryMock.proxyDelegateInstance()
-
-        List<Contact> expectedContacts = [new Contact(), new Contact(), new Contact()]
-        ContactDAO contactDAO = new ContactDAO(sessionFactoryProxy)
-
-        // Not super happy about this but I can't mock the hibernate stuff succesfully mock a query object.
-        def expectedQuery = [:]
-        boolean namedQueryCalled = false
-        contactDAO.metaClass.namedQuery = { String name ->
-            assert name == ContactDAO.FIND_ALL_QUERY
-            namedQueryCalled = true
-            return expectedQuery
-        }
-
-        boolean listCalled = false
-        contactDAO.metaClass.list  = { def query ->
-            assert query == expectedQuery
-            listCalled = true
-            return expectedContacts
-        }
 
 
-        List<Contact> contactList = contactDAO.list()
-
-        assert namedQueryCalled
-        assert listCalled
-        assert contactList == expectedContacts
-    }
 }

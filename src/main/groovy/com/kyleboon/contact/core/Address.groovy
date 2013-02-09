@@ -12,7 +12,7 @@ import javax.persistence.*
  */
 @ToString
 @Entity
-@Table(name = "addresses")
+@Table(name = 'addresses')
 @EqualsAndHashCode
 class Address {
     @Id
@@ -20,27 +20,27 @@ class Address {
     @JsonProperty
     Long id
 
-    @Column(name = "address1", nullable = false)
+    @Column(name = 'address1', nullable = false)
     @JsonProperty
     String address1
 
-    @Column(name = "address2", nullable = false)
+    @Column(name = 'address2', nullable = false)
     @JsonProperty
     String address2
 
-    @Column(name = "city", nullable = false)
+    @Column(name = 'city', nullable = false)
     @JsonProperty
     String city
 
-    @Column(name = "state", nullable = false)
+    @Column(name = 'state', nullable = false)
     @JsonProperty
     String state
 
-    @Column(name = "county", nullable = false)
+    @Column(name = 'county', nullable = false)
     @JsonProperty
     String county
 
-    @Column(name = "zip_code", nullable = false)
+    @Column(name = 'zip_code', nullable = false)
     @JsonProperty
     String zipCode
 }
