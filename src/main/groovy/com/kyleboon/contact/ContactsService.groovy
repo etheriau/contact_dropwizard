@@ -25,7 +25,7 @@ class ContactsService extends Service<ContactsConfiguration> {
         new HibernateBundle<ContactsConfiguration>([Contact, Address]) {
             @Override
             public DatabaseConfiguration getDatabaseConfiguration(ContactsConfiguration configuration) {
-                return configuration.databaseConfiguration()
+                return configuration.databaseConfiguration
             }
         }
 
@@ -33,7 +33,7 @@ class ContactsService extends Service<ContactsConfiguration> {
         new MigrationsBundle<ContactsConfiguration>() {
             @Override
             public DatabaseConfiguration getDatabaseConfiguration(ContactsConfiguration configuration) {
-                return configuration.databaseConfiguration()
+                return configuration.databaseConfiguration
             }
         }
 
@@ -46,6 +46,9 @@ class ContactsService extends Service<ContactsConfiguration> {
         bootstrap.addBundle assetsBundle
         bootstrap.addBundle migrationsBundle
         bootstrap.addBundle hibernateBundle
+
+        bootstrap.addBundle(new AssetsBundle('/apidocs/'))
+        bootstrap.addBundle(new AssetsBundle('/swagger-ui-1.1.0/', '/swagger'))
     }
 
     @Override

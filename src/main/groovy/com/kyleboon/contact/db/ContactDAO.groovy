@@ -2,7 +2,9 @@ package com.kyleboon.contact.db
 
 import com.kyleboon.contact.core.Contact
 import com.yammer.dropwizard.hibernate.AbstractDAO
+import com.yammer.metrics.annotation.Timed
 import org.hibernate.SessionFactory
+import org.hibernate.criterion.MatchMode
 import org.hibernate.criterion.Restrictions
 
 /**
@@ -16,7 +18,7 @@ class ContactDAO extends AbstractDAO<Contact> {
         super(factory)
     }
 
-    public Contact create(Contact contact) {
+    public Contact saveOrUpdate(Contact contact) {
         return persist(contact)
     }
 
@@ -30,5 +32,12 @@ class ContactDAO extends AbstractDAO<Contact> {
     public List<Contact> list() {
         return currentSession()
                 .createCriteria(Contact).list() as List<Contact>
+    }
+
+    public List<Contact> findByFirstName(String firstName) {
+        return currentSession()
+                .createCriteria(Contact)
+                .add(Restrictions.ilike('firstName', firstName, MatchMode.ANYWHERE))
+                .list() as List<Contact>
     }
 }
