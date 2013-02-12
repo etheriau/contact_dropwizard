@@ -14,9 +14,6 @@ import com.yammer.dropwizard.hibernate.UnitOfWork
 import javax.ws.rs.GET
 import com.yammer.metrics.annotation.Timed
 
-import javax.xml.ws.WebServiceException
-import javax.xml.ws.http.HTTPException
-
 /**
  * User: kboon
  * Date: 11/19/12
@@ -73,11 +70,6 @@ class ContactResource {
     @UnitOfWork
     public Contact getContact(@PathParam(value = 'contact_id') long contactId) {
         Contact contact = contactDAO.findById(contactId)
-
-        if (!contact) {
-            throw new HTTPException(404)
-        }
-
         return contact
     }
 

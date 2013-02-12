@@ -42,14 +42,14 @@ class ContactsService extends Service<ContactsConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ContactsConfiguration> bootstrap) {
-        bootstrap.name = 'configuration_service'
+        bootstrap.with {
+            name = 'configuration_service'
+            addBundle migrationsBundle
+            addBundle hibernateBundle
+            addBundle(new AssetsBundle('/apidocs/'))
+            addBundle(new AssetsBundle('/swagger-ui-1.1.0/', '/swagger'))
 
-        bootstrap.addBundle assetsBundle
-        bootstrap.addBundle migrationsBundle
-        bootstrap.addBundle hibernateBundle
-
-        bootstrap.addBundle(new AssetsBundle('/apidocs/'))
-        bootstrap.addBundle(new AssetsBundle('/swagger-ui-1.1.0/', '/swagger'))
+        }
     }
 
     @Override

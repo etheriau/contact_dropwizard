@@ -2,7 +2,6 @@ package com.kyleboon.contact.db
 
 import com.kyleboon.contact.core.Contact
 import com.yammer.dropwizard.hibernate.AbstractDAO
-import com.yammer.metrics.annotation.Timed
 import org.hibernate.SessionFactory
 import org.hibernate.criterion.MatchMode
 import org.hibernate.criterion.Restrictions
