@@ -41,7 +41,6 @@ class ContactResource {
      "jobTitle": "developer",
      "phoneNumber": "999-999-9999",
      "address": {
-     "id": 0,
      "address1":"15 South 5th Street",
      "address2":"",
      "city":"Minneapolis",
@@ -57,7 +56,7 @@ class ContactResource {
     @POST
     @UnitOfWork
     public Contact createContact(@Valid Contact contact) {
-        return contactDAO.saveOrUpdate(deserializedContact)
+        return contactDAO.saveOrUpdate(contact)
     }
 
     /**
@@ -102,7 +101,7 @@ class ContactResource {
      */
     @Timed(name = 'searchForContact')
     @Path('/search')
-    @GET
+    @POST
     @UnitOfWork
     public List<Contact> search(@Valid SearchCommand searchCommand) {
         return contactDAO.findByFirstName(searchCommand.firstName)

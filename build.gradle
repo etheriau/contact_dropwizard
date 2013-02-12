@@ -92,10 +92,11 @@ shadow {
     exclude 'META-INF/*.RSA'
 }
 
-task swagger << {
-    ant.taskdef(name: "docca", classname: "org.codehaus.groovy.enhancedgroovydoc.DocletGroovyDoc", classpath: configurations.compile.asPath)
+task swagger(dependsOn: 'shadow', group: 'dropwizard', description:'Builds the JSON artifacts Swagger needs to operate upon.') << {
+    ant.taskdef(name: "docca", classname: "org.codehaus.groovy.enhancedgroovydoc.DocletGroovyDoc",
+            classpath: configurations.compile.asPath)
     ant.docca(
-            destdir: "target/apidocs",
+            destdir: "build/classes/main/apidocs",
             sourcepath:"src/main/groovy",
             packagenames:"**.*",
             use:"true",
@@ -106,16 +107,16 @@ task swagger << {
             private:"false",
             {
                 doclet(name:"com.bloomhealthco.apidocs.ServiceDoclet"){
-                    param(name:"-d", value:"target/apidocs")
+                    param(name:"-d", value:"${sourceSets.main.output.classesDir}/apidocs")
                     param(name:"-apiVersion", value:"1")
-                    param(name:"-docBasePath", value:"http://localhost:8084/apidocs")
-                    param(name:"-apiBasePath", value:"http://localhost:8084")
+                    param(name:"-docBasePath", value:"http://$serverName:$portNumber/apidocs")
+                    param(name:"-apiBasePath", value:"http://$serverName:$portNumber")
                 }
             }
     )
 }
 
-task run(dependsOn: 'shadow', description: "Run service using dev configuration") << {
+task run(dependsOn: 'shadow', group: 'dropwizard',  description: "Run service using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
     def props = project.ext.properties.findAll { it.key.startsWith('dw') }
     javaexec {
@@ -125,14 +126,14 @@ task run(dependsOn: 'shadow', description: "Run service using dev configuration"
     }
 }
 
-task migrate(dependsOn: 'shadow', description: "Run migrations using the dev configuration") << {
+task migrate(dependsOn: 'shadow', group: 'dropwizard', description: "Run migrations using the dev configuration") << {
     javaexec {
         main = '-jar'
         args = ["${shadow.shadowJar.getPath()}", 'db', 'migrate', 'dev_config.yml']
     }
 }
 
-task dropAll(dependsOn: 'shadow', description: "Run drop-all database command") << {
+task dropAll(dependsOn: 'shadow', group: 'dropwizard',  description: "Run drop-all database command") << {
     javaexec {
         main = '-jar'
         args = ["${shadow.shadowJar.getPath()}", 'db', 'drop-all', 'dev_config.yml', '--confirm-delete-everything']

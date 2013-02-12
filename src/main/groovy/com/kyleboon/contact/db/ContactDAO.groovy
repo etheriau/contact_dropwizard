@@ -14,27 +14,27 @@ import org.hibernate.criterion.Restrictions
 // TODO: write a unit test for this class
 class ContactDAO extends AbstractDAO<Contact> {
 
-    public ContactDAO(SessionFactory factory) {
+    ContactDAO(SessionFactory factory) {
         super(factory)
     }
 
-    public Contact saveOrUpdate(Contact contact) {
+    Contact saveOrUpdate(Contact contact) {
         return persist(contact)
     }
 
-    public Contact findById(Long id) {
+    Contact findById(Long id) {
         return currentSession()
                 .createCriteria(Contact)
                 .add(Restrictions.eq('id', id))
                 .uniqueResult() as Contact
     }
 
-    public List<Contact> list() {
+    List<Contact> list() {
         return currentSession()
                 .createCriteria(Contact).list() as List<Contact>
     }
 
-    public List<Contact> findByFirstName(String firstName) {
+    List<Contact> findByFirstName(String firstName) {
         return currentSession()
                 .createCriteria(Contact)
                 .add(Restrictions.ilike('firstName', firstName, MatchMode.ANYWHERE))

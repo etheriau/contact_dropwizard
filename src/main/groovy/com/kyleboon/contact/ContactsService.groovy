@@ -1,6 +1,7 @@
 package com.kyleboon.contact
 
 import com.kyleboon.contact.db.ContactDAO
+import com.kyleboon.contact.healthchecks.MySQLHealthCheck
 import com.kyleboon.contact.resources.ContactResource
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.assets.AssetsBundle
@@ -57,5 +58,7 @@ class ContactsService extends Service<ContactsConfiguration> {
 
         ContactDAO contactDAO = new ContactDAO(hibernateBundle.sessionFactory)
         environment.addResource(new ContactResource(contactDAO))
+
+        environment.addHealthCheck(new MySQLHealthCheck(hibernateBundle.sessionFactory))
     }
 }
