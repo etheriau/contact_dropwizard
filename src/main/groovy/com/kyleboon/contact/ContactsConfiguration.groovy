@@ -16,4 +16,7 @@ class ContactsConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration()
+
+    @JsonProperty
+    String kylesString
 }

@@ -59,16 +59,16 @@ class ContactResource {
     /**
      * Get a known Contact by id
      *
-     *  @param contactId
+     *  @param {contactId}
      * <p> The id of the contact
      * <p> Example: 100
      * @return the contact
      */
     @GET
-    @Path('/{contact_id}')
+    @Path('/{contactId}')
     @Timed
     @UnitOfWork
-    public Contact getContact(@PathParam(value = 'contact_id') long contactId) {
+    public Contact getContact(@PathParam(value = 'contactId') Long contactId) {
         Contact contact = contactDAO.findById(contactId)
         return contact
     }

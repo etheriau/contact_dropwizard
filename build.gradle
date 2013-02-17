@@ -52,8 +52,7 @@ dependencies {
     compile 'com.h2database:h2:1.3.170'
 
     // for swagger
-    compile "org.codehaus.groovy:enhanced-groovydoc:0.5"
-    compile "com.bloomhealthco:swagger-jaxrs-groovydoclet:0.1.0-SNAPSHOT"
+    compile "com.bloomhealthco:swagger-jaxrs-groovydoclet:0.2.0"
 
     testCompile "com.yammer.dropwizard:dropwizard-testing:$dropwizardVersion"
     testCompile "org.spockframework:spock-core:1.0-groovy-2.0-SNAPSHOT"
@@ -81,7 +80,9 @@ jar {
 cobertura {
     coverageFormats = ['xml', 'html']
     coverageIncludes = ['**/*.java', '**/*.groovy']
+    coverageSourceDirs = [sourceSets.main.allSource.srcDirs]
 }
+
 codenarc {
     configFile = rootProject.file('codenarcrule.groovy')
     reportFormat = System.properties['codeNarcOutput'] ?: 'html'
