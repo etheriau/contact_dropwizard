@@ -51,8 +51,21 @@ dependencies {
 
     compile 'com.h2database:h2:1.3.170'
 
+    compile 'com.sun.jersey:jersey-core:1.18.1'
+    compile 'com.sun.jersey:jersey-server:1.18.1'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.3.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+    compile 'org.eclipse.jetty:jetty-util:8.1.13.v20130916'
+    compile 'org.eclipse.jetty:jetty-io:8.1.13.v20130916'
+    compile 'org.eclipse.jetty:jetty-http:8.1.13.v20130916'
+    compile 'org.eclipse.jetty:jetty-continuation:8.1.13.v20130916'
+    compile 'org.eclipse.jetty:jetty-server:8.1.13.v20130916'
+    compile 'com.google.guava:guava:16.0.1'
+    compile 'joda-time:joda-time:2.3'
+
     // for swagger
-    compile "com.bloomhealthco:swagger-jaxrs-groovydoclet:0.2.0"
+    //compile "com.bloomhealthco:swagger-jaxrs-groovydoclet:0.2.0"
 
     testCompile "com.yammer.dropwizard:dropwizard-testing:$dropwizardVersion"
     testCompile "org.spockframework:spock-core:1.0-groovy-2.0-SNAPSHOT"
@@ -61,7 +74,7 @@ dependencies {
     testRuntime "org.objenesis:objenesis:1.2"    // allows mocking of classes without default constructor (together with CGLIB)
 
     // needed for validation tests so logging in hibernate validator does not throw exception
-    compile 'ch.qos.logback:logback-classic:1.0.7'
+    compile 'ch.qos.logback:logback-classic:1.1.1'
     compile "org.slf4j:log4j-over-slf4j:1.7.2"
 }
 
